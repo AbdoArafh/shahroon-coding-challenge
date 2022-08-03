@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
 
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 function App() {
   const [items, setItems] = useState([]);
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState("");
 
   const [listRef] = useAutoAnimate();
 
   const addNewItem = () => {
+    console.log("addNewItem", userInput);
     if (userInput) {
       setItems((items) =>
         items.concat([
@@ -19,9 +20,9 @@ function App() {
           },
         ])
       );
-      setUserInput('');
+      setUserInput("");
     } else {
-      window.alert('Please type something!');
+      window.alert("Please type something!");
     }
   };
 
@@ -32,15 +33,11 @@ function App() {
   };
 
   const handleKeyUp = (event) => {
-    if (event.key === 13) {
+    console.log("keyup", userInput);
+    if (event.key === "Enter" || event.keyCode === 13) {
       addNewItem();
     }
   };
-
-  useEffect(() => {
-    window.addEventListener('keyup', handleKeyUp);
-    return () => window.removeEventListener('keyup', handleKeyUp);
-  }, []);
 
   return (
     <div className="root">
@@ -51,6 +48,7 @@ function App() {
           className="input"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
+          onKeyUp={handleKeyUp}
         />
       </div>
       <button className="add-btn" onClick={addNewItem}>
