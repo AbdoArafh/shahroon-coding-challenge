@@ -26,9 +26,7 @@ function App() {
     }
   };
 
-  const removeItem = (event) => {
-    const id = event.target.dataset.id;
-
+  const removeItem = (id) => {
     setItems((items) => items.filter((item) => item.id !== id));
   };
 
@@ -59,7 +57,10 @@ function App() {
         {items.map((item) => (
           <li key={item.id}>
             <span className="label">{item.title}</span>
-            <span className="delete-btn" data-id={item.id} onClick={removeItem}>
+            <span
+              className="delete-btn"
+              onClick={removeItem.bind(null, item.id)}
+            >
               X
             </span>
           </li>
